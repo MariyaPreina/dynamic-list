@@ -65,9 +65,11 @@ export default {
 <style lang="scss" scoped>
 .wrapper {
   position: relative;
+  height: 100%;
 }
 .card {
   border-radius: 4px;
+  height: 100%;
   overflow: hidden;
   background-color: $color-background;
   -webkit-box-shadow: $shadow-main;
