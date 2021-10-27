@@ -13,5 +13,6 @@ module.exports = {
         prependData: `@import "~@/assets/scss/_base.scss";`
       }
     }
-  }
+  },
+  publicPath: process.env.NODE_ENV === 'production' ? '/dynamic-list/' : '/'
 }
