@@ -26,6 +26,12 @@ $shadow-input: 0 2px 5px 0 rgba(0,0,0, .1);
 $font-primary: 'Source Sans Pro', sans-serif;;
 $font-secondary: 'Inter', sans-serif;
 
+//RESPONSIVE BREAKPOINTS
+$bp-large: 1100px;
+$bp-medium: 800px;
+$bp-small: 550px;
+$bp-extra-small: 400px;
+
 *,
 *:before,
 *:after {
@@ -51,6 +57,9 @@ body {
   margin-left: auto;
   margin-right: auto;
   padding: 0 32px;
+  @media only screen and (max-width: $bp-medium) {
+    padding: 0 15px;
+  }
 }
 
 input:focus,

@@ -3,7 +3,7 @@
     <main class="main">
       <div class="form-box">
         <h1 class="form-box__title">Добавление товара</h1>
-        <add-form></add-form>
+        <add-form/>
       </div>
       <div class="cards">
         <div class="cards__sort">
@@ -14,10 +14,10 @@
               @select="updateSortValue"
               :selected="sortValue.name"
               :default="'По умолчанию'"
-            ></app-select>
+            />
           </div>
         </div>
-        <div class="cards__inner">
+        <div class="cards__inner" v-if="cards.length > 0">
           <product-card
             v-for="(card, idx) in cards"
             :key="idx"
@@ -28,6 +28,7 @@
             :price="card.price"
           ></product-card>
         </div>
+        <p class="cards__empty" v-else>Список пуст</p>
       </div>
     </main>
   </div>
@@ -85,10 +86,22 @@ export default {
   grid-template-columns: 1fr 3fr;
   grid-column-gap: 16px;
   padding: 32px 0;
+  @media only screen and (max-width: $bp-large) {
+    grid-template-columns: 1.5fr 2.5fr;
+  }
+  @media only screen and (max-width: $bp-medium) {
+    grid-template-columns: 2fr 2fr;
+  }
+  @media only screen and (max-width: $bp-small) {
+    grid-template-columns: 1fr;
+  }
 }
 
 .form-box {
   grid-column: 1 / 2;
+  @media only screen and (max-width: $bp-small) {
+    grid-column: 1 / -1;
+  }
   &__title {
     font-family: inherit;
     font-size: 28px;
@@ -99,6 +112,9 @@ export default {
 
 .cards {
   grid-column: 2 / -1;
+  @media only screen and (max-width: $bp-small) {
+    grid-column: 1 / -1;
+  }
   &__sort {
     display: flex;
     justify-content: flex-end;
@@ -113,6 +129,25 @@ export default {
     grid-template-columns: repeat(3, 1fr);
     gap: 16px;
     grid-auto-rows: 1fr;
+    @media only screen and (max-width: $bp-large) {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    @media only screen and (max-width: $bp-medium) {
+      grid-template-columns: 1fr;
+    }
+    @media only screen and (max-width: $bp-small) {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 8px;
+    }
+    @media only screen and (max-width: $bp-extra-small) {
+      grid-template-columns: 1fr;
+    }
+  }
+  &__empty {
+    font-family: inherit;
+    font-size: 20px;
+    font-weight: 400;
+    text-align: center;
   }
 }
 </style>

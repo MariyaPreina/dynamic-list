@@ -114,6 +114,12 @@ export default {
   box-shadow: $shadow-main;
   border-radius: 4px;
   padding: 24px;
+  @media only screen and (max-width: $bp-medium) {
+    padding: 10px;
+  }
+  @media only screen and (max-width: $bp-small) {
+    margin-bottom: 50px;
+  }
   &__group {
     margin-bottom: 24px;
     position: relative;
