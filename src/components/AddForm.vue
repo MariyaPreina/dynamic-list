@@ -6,16 +6,22 @@
         type="text"
         id="name"
         class="form__input"
-        :class="{'form__input--error' : errors.errorName}"
+        :class="{'form__input--error' : errors.name}"
         placeholder="Введите наименование товара"
-        v-model="requiredFields.name"
+        v-model.trim="requiredFields.name"
         @blur="checkName"
       >
-      <span class="form__error" v-if="errors.errorName">{{ errors.errorName }}</span>
+      <span class="form__error" v-if="errors.name">{{ errors.name }}</span>
     </div>
     <div class="form__group">
       <label for="description" class="form__label">Описание товара</label>
-      <textarea id="description" class="form__input form__input--textarea" placeholder="Введите описание товара"/>
+      <textarea
+        id="description"
+        class="form__input
+        form__input--textarea"
+        placeholder="Введите описание товара"
+        v-model.trim="description"
+      />
     </div>
     <div class="form__group">
       <label for="img" class="form__label form__label--required">Ссылка на изображение товара</label>
@@ -23,25 +29,25 @@
         type="text"
         id="img"
         class="form__input"
-        :class="{'form__input--error' : errors.errorImg}"
+        :class="{'form__input--error' : errors.img}"
         placeholder="Введите ссылку"
-        v-model="requiredFields.img"
+        v-model.trim="requiredFields.img"
         @blur="checkImg"
       >
-      <span class="form__error" v-if="errors.errorImg">{{ errors.errorImg }}</span>
+      <span class="form__error" v-if="errors.img">{{ errors.img }}</span>
     </div>
     <div class="form__group">
       <label for="price" class="form__label form__label--required">Цена товара</label>
       <input
-        type="text"
+        type="number"
         id="price"
         class="form__input"
-        :class="{'form__input--error' : errors.errorPrice}"
+        :class="{'form__input--error' : errors.price}"
         placeholder="Введите цену"
-        v-model="requiredFields.price"
+        v-model.trim="requiredFields.price"
         @blur="checkPrice"
       >
-      <span class="form__error" v-if="errors.errorPrice">{{ errors.errorPrice }}</span>
+      <span class="form__error" v-if="errors.price">{{ errors.price }}</span>
     </div>
     <button type="submit" class="form__btn" :disabled="!isFormEnable">Добавить товар</button>
   </form>
@@ -58,9 +64,9 @@ export default {
       },
       description: '',
       errors: {
-        errorName: '',
-        errorImg: '',
-        errorPrice: ''
+        name: '',
+        img: '',
+        price: ''
       }
     }
   },
@@ -70,30 +76,27 @@ export default {
     }
   },
   methods: {
-    checkName () {
-      this.errors.errorName = ''
-      if (!this.requiredFields.name) {
-        this.errors.errorName = 'Поле является обязательным'
+    checkRequiredField (value, errorName) {
+      this.errors[errorName] = ''
+      if (!value) {
+        this.errors[errorName] = 'Поле является обязательным'
       }
+    },
+    checkName () {
+      this.checkRequiredField(this.requiredFields.name, 'name')
     },
     checkImg () {
-      this.errors.errorImg = ''
-      if (!this.requiredFields.img) {
-        this.errors.errorImg = 'Поле является обязательным'
-      }
+      this.checkRequiredField(this.requiredFields.img, 'img')
     },
     checkPrice () {
-      this.errors.errorPrice = ''
-      if (!this.requiredFields.price) {
-        this.errors.errorPrice = 'Поле является обязательным'
-      }
+      this.checkRequiredField(this.requiredFields.price, 'price')
     },
     onSubmit () {}
   }
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .form {
   width: 100%;
   background-color: $color-background;
@@ -119,7 +122,8 @@ export default {
       width: 4px;
       height: 4px;
       background-color: $color-error;
-      top: 2px
+      top: 2px;
+      right: -5px;
     }
   }
   &__input {
