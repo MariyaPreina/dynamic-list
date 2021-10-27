@@ -8,9 +8,10 @@
     <div class="card__content">
       <h2 class="card__name">{{ name }}</h2>
       <p class="card__description" v-if="description">{{ description }}</p>
-      <p class="card__price">{{ price.toLocaleString().replace(',', ' ') }} руб.</p>
+      <p class="card__description" v-else>Нет описания</p>
+      <p class="card__price">{{ price.toLocaleString().replaceAll(',', ' ') }} руб.</p>
     </div>
-    <div class="card__delete-btn">
+    <div class="card__delete-btn" @click="deleteProduct">
       <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
         <g clip-path="url(#clip0_4:349)">
           <path d="M10.207 5.79688C9.99998 5.79688 9.83224 5.96462 9.83224 6.17158V13.2535C9.83224 13.4604 9.99998 13.6283 10.207 13.6283C10.4139 13.6283 10.5817 13.4604 10.5817 13.2535V6.17158C10.5817 5.96462 10.4139 5.79688 10.207 5.79688Z" fill="white"/>
@@ -34,11 +35,17 @@ export default {
     name: String,
     img: String,
     description: String,
-    price: Number
+    price: Number,
+    id: Number
   },
   data () {
     return {
       imgPlaceholder: require('../assets/img/image-placeholder.png')
+    }
+  },
+  methods: {
+    deleteProduct () {
+      this.$store.commit('deleteProduct', this.id)
     }
   }
 }
@@ -49,6 +56,8 @@ export default {
   border-radius: 4px;
   background-color: $color-background;
   position: relative;
+  -webkit-box-shadow: $shadow-main;
+  box-shadow: $shadow-main;
   &__image {
     width: 100%;
     height: 200px;
@@ -66,11 +75,14 @@ export default {
       height: 100%;
       background-position: center top;
       background-size: cover;
-      border-radius: 4px 4px 0;
+      border-radius: 4px 4px 0 0;
     }
   }
   &__content {
     padding: 16px 16px 24px;
+    height: calc(100% - 200px);
+    display: flex;
+    flex-direction: column;
   }
   &__name {
     font-family: inherit;
@@ -78,6 +90,9 @@ export default {
     font-weight: 600;
     color: $color-text;
     margin-bottom: 16px;
+    &:first-letter {
+      text-transform:capitalize;
+    }
   }
   &__description {
     font-family: inherit;
@@ -85,19 +100,22 @@ export default {
     font-weight: 400;
     color: $color-text;
     margin-bottom: 32px;
+    &:first-letter {
+      text-transform:capitalize;
+    }
   }
   &__price {
     font-family: inherit;
     font-size: 24px;
     font-weight: 600;
     color: $color-text;
+    margin-top: auto;
   }
   &__delete-btn {
     min-width: 32px;
     min-height: 32px;
     background-color: $color-error;
     border-radius: 10px;
-    border:solid 1px $color-error;
     position: absolute;
     top: -8px;
     right: -8px;
@@ -105,6 +123,10 @@ export default {
     align-items: center;
     display: none;
     cursor: pointer;
+    transition: background-color .2s linear;
+    &:hover {
+      background-color: $color-error-bright;
+    }
   }
   &:hover &__delete-btn {
     display: flex;

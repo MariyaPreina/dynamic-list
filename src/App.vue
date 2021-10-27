@@ -19,8 +19,9 @@
         </div>
         <div class="cards__inner">
           <product-card
-            v-for="card in cards"
-            :key="card.name"
+            v-for="(card, idx) in cards"
+            :key="idx"
+            :id="idx"
             :name="card.name"
             :img="card.img"
             :description="card.description"
@@ -45,7 +46,6 @@ export default {
   },
   data () {
     return {
-      sortValue: '',
       selectValues: [
         {
           name: 'По цене min',
@@ -65,11 +65,14 @@ export default {
   computed: {
     cards () {
       return this.$store.getters.products
+    },
+    sortValue () {
+      return this.$store.getters.sortSelect
     }
   },
   methods: {
     updateSortValue (option) {
-      this.sortValue = option
+      this.$store.commit('updateSortValue', option)
     }
   }
 }
@@ -112,5 +115,4 @@ export default {
     grid-auto-rows: 1fr;
   }
 }
-
 </style>

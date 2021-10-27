@@ -91,7 +91,17 @@ export default {
     checkPrice () {
       this.checkRequiredField(this.requiredFields.price, 'price')
     },
-    onSubmit () {}
+    onSubmit () {
+      const values = this.requiredFields
+      this.$store.commit('addProduct', {
+        name: values.name,
+        description: this.description,
+        img: values.img,
+        price: Number(values.price)
+      })
+      Object.keys(values).forEach(key => { values[key] = '' })
+      this.description = ''
+    }
   }
 }
 </script>
